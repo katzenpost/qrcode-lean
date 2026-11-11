@@ -1,0 +1,16 @@
+name = "qrcode"
+version = "0.1.0"
+defaultTargets = ["Qrcode"]
+testDriver = "tests"
+
+[[lean_lib]]
+name = "Qrcode"
+
+# test modules, used by the `tests` executable only
+[[lean_lib]]
+name = "QrcodeTests"
+globs = ["QrcodeTests.+"]
+
+[[lean_exe]]
+name = "tests"
+root = "QrcodeTests"

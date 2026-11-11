@@ -1,0 +1,18 @@
+{
+ "vouchers": [
+  {
+   "code": "cvV8Q1uGC31DYm4pNGXfCg8ihJA1Pj7sYkyK/eBIP28=",
+   "version": 4,
+   "ecc_out": "M",
+   "mask_out": 2,
+   "modules": "fe74f93fc10fa5106eaf5c2bb75771f5dbabd20aec17ae7107faaaaafe01f20c00be1de13e7c15c7034dee6920438063c4e1ae9245692a1e7c0e6cf8db14405579cf4ae6d3cc4c3e3d039588708848846c1a777399e5c7e68b2e06db46b23d32420bdc9b474efb805ed6c4ff8fcb6ad05f83d1fbaaa24ff5d4be5846ebc8cbd104dd7a04fed4169100"
+  },
+  {
+   "code": "rYftB9lL3klTpijbh2cDQf148H1y6jsCcGTsBVG/CJo=",
+   "version": 4,
+   "ecc_out": "M",
+   "mask_out": 2,
+   "modules": "fe0cf93fc11ba5506eb9382bb75c71d5dbabd20aec17ae6107faaaaafe01a24c00be67eb3e6a31068021fc6935cb2261cdf3288241040dbc5d393f58c1f4527d3a0d5a12f31e661264336ac8f2b849a26e0ff52498fc45c7e9283e0a2e226d202e4bec93e7e3fd80410e473f9ec96ad05e62f1fbac024fa5d4fe5a56eb30d0d104f1793cfea219f300"
+  }
+ ]
+}
