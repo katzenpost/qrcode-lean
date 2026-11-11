@@ -1,0 +1,661 @@
+{
+ "capacity": [
+  {
+   "version": 1,
+   "raw_modules": 208,
+   "alignment": [],
+   "data_codewords": [
+    19,
+    16,
+    13,
+    9
+   ]
+  },
+  {
+   "version": 2,
+   "raw_modules": 359,
+   "alignment": [
+    6,
+    18
+   ],
+   "data_codewords": [
+    34,
+    28,
+    22,
+    16
+   ]
+  },
+  {
+   "version": 3,
+   "raw_modules": 567,
+   "alignment": [
+    6,
+    22
+   ],
+   "data_codewords": [
+    55,
+    44,
+    34,
+    26
+   ]
+  },
+  {
+   "version": 4,
+   "raw_modules": 807,
+   "alignment": [
+    6,
+    26
+   ],
+   "data_codewords": [
+    80,
+    64,
+    48,
+    36
+   ]
+  },
+  {
+   "version": 5,
+   "raw_modules": 1079,
+   "alignment": [
+    6,
+    30
+   ],
+   "data_codewords": [
+    108,
+    86,
+    62,
+    46
+   ]
+  },
+  {
+   "version": 6,
+   "raw_modules": 1383,
+   "alignment": [
+    6,
+    34
+   ],
+   "data_codewords": [
+    136,
+    108,
+    76,
+    60
+   ]
+  },
+  {
+   "version": 7,
+   "raw_modules": 1568,
+   "alignment": [
+    6,
+    22,
+    38
+   ],
+   "data_codewords": [
+    156,
+    124,
+    88,
+    66
+   ]
+  },
+  {
+   "version": 8,
+   "raw_modules": 1936,
+   "alignment": [
+    6,
+    24,
+    42
+   ],
+   "data_codewords": [
+    194,
+    154,
+    110,
+    86
+   ]
+  },
+  {
+   "version": 9,
+   "raw_modules": 2336,
+   "alignment": [
+    6,
+    26,
+    46
+   ],
+   "data_codewords": [
+    232,
+    182,
+    132,
+    100
+   ]
+  },
+  {
+   "version": 10,
+   "raw_modules": 2768,
+   "alignment": [
+    6,
+    28,
+    50
+   ],
+   "data_codewords": [
+    274,
+    216,
+    154,
+    122
+   ]
+  },
+  {
+   "version": 11,
+   "raw_modules": 3232,
+   "alignment": [
+    6,
+    30,
+    54
+   ],
+   "data_codewords": [
+    324,
+    254,
+    180,
+    140
+   ]
+  },
+  {
+   "version": 12,
+   "raw_modules": 3728,
+   "alignment": [
+    6,
+    32,
+    58
+   ],
+   "data_codewords": [
+    370,
+    290,
+    206,
+    158
+   ]
+  },
+  {
+   "version": 13,
+   "raw_modules": 4256,
+   "alignment": [
+    6,
+    34,
+    62
+   ],
+   "data_codewords": [
+    428,
+    334,
+    244,
+    180
+   ]
+  },
+  {
+   "version": 14,
+   "raw_modules": 4651,
+   "alignment": [
+    6,
+    26,
+    46,
+    66
+   ],
+   "data_codewords": [
+    461,
+    365,
+    261,
+    197
+   ]
+  },
+  {
+   "version": 15,
+   "raw_modules": 5243,
+   "alignment": [
+    6,
+    26,
+    48,
+    70
+   ],
+   "data_codewords": [
+    523,
+    415,
+    295,
+    223
+   ]
+  },
+  {
+   "version": 16,
+   "raw_modules": 5867,
+   "alignment": [
+    6,
+    26,
+    50,
+    74
+   ],
+   "data_codewords": [
+    589,
+    453,
+    325,
+    253
+   ]
+  },
+  {
+   "version": 17,
+   "raw_modules": 6523,
+   "alignment": [
+    6,
+    30,
+    54,
+    78
+   ],
+   "data_codewords": [
+    647,
+    507,
+    367,
+    283
+   ]
+  },
+  {
+   "version": 18,
+   "raw_modules": 7211,
+   "alignment": [
+    6,
+    30,
+    56,
+    82
+   ],
+   "data_codewords": [
+    721,
+    563,
+    397,
+    313
+   ]
+  },
+  {
+   "version": 19,
+   "raw_modules": 7931,
+   "alignment": [
+    6,
+    30,
+    58,
+    86
+   ],
+   "data_codewords": [
+    795,
+    627,
+    445,
+    341
+   ]
+  },
+  {
+   "version": 20,
+   "raw_modules": 8683,
+   "alignment": [
+    6,
+    34,
+    62,
+    90
+   ],
+   "data_codewords": [
+    861,
+    669,
+    485,
+    385
+   ]
+  },
+  {
+   "version": 21,
+   "raw_modules": 9252,
+   "alignment": [
+    6,
+    28,
+    50,
+    72,
+    94
+   ],
+   "data_codewords": [
+    932,
+    714,
+    512,
+    406
+   ]
+  },
+  {
+   "version": 22,
+   "raw_modules": 10068,
+   "alignment": [
+    6,
+    26,
+    50,
+    74,
+    98
+   ],
+   "data_codewords": [
+    1006,
+    782,
+    568,
+    442
+   ]
+  },
+  {
+   "version": 23,
+   "raw_modules": 10916,
+   "alignment": [
+    6,
+    30,
+    54,
+    78,
+    102
+   ],
+   "data_codewords": [
+    1094,
+    860,
+    614,
+    464
+   ]
+  },
+  {
+   "version": 24,
+   "raw_modules": 11796,
+   "alignment": [
+    6,
+    28,
+    54,
+    80,
+    106
+   ],
+   "data_codewords": [
+    1174,
+    914,
+    664,
+    514
+   ]
+  },
+  {
+   "version": 25,
+   "raw_modules": 12708,
+   "alignment": [
+    6,
+    32,
+    58,
+    84,
+    110
+   ],
+   "data_codewords": [
+    1276,
+    1000,
+    718,
+    538
+   ]
+  },
+  {
+   "version": 26,
+   "raw_modules": 13652,
+   "alignment": [
+    6,
+    30,
+    58,
+    86,
+    114
+   ],
+   "data_codewords": [
+    1370,
+    1062,
+    754,
+    596
+   ]
+  },
+  {
+   "version": 27,
+   "raw_modules": 14628,
+   "alignment": [
+    6,
+    34,
+    62,
+    90,
+    118
+   ],
+   "data_codewords": [
+    1468,
+    1128,
+    808,
+    628
+   ]
+  },
+  {
+   "version": 28,
+   "raw_modules": 15371,
+   "alignment": [
+    6,
+    26,
+    50,
+    74,
+    98,
+    122
+   ],
+   "data_codewords": [
+    1531,
+    1193,
+    871,
+    661
+   ]
+  },
+  {
+   "version": 29,
+   "raw_modules": 16411,
+   "alignment": [
+    6,
+    30,
+    54,
+    78,
+    102,
+    126
+   ],
+   "data_codewords": [
+    1631,
+    1267,
+    911,
+    701
+   ]
+  },
+  {
+   "version": 30,
+   "raw_modules": 17483,
+   "alignment": [
+    6,
+    26,
+    52,
+    78,
+    104,
+    130
+   ],
+   "data_codewords": [
+    1735,
+    1373,
+    985,
+    745
+   ]
+  },
+  {
+   "version": 31,
+   "raw_modules": 18587,
+   "alignment": [
+    6,
+    30,
+    56,
+    82,
+    108,
+    134
+   ],
+   "data_codewords": [
+    1843,
+    1455,
+    1033,
+    793
+   ]
+  },
+  {
+   "version": 32,
+   "raw_modules": 19723,
+   "alignment": [
+    6,
+    34,
+    60,
+    86,
+    112,
+    138
+   ],
+   "data_codewords": [
+    1955,
+    1541,
+    1115,
+    845
+   ]
+  },
+  {
+   "version": 33,
+   "raw_modules": 20891,
+   "alignment": [
+    6,
+    30,
+    58,
+    86,
+    114,
+    142
+   ],
+   "data_codewords": [
+    2071,
+    1631,
+    1171,
+    901
+   ]
+  },
+  {
+   "version": 34,
+   "raw_modules": 22091,
+   "alignment": [
+    6,
+    34,
+    62,
+    90,
+    118,
+    146
+   ],
+   "data_codewords": [
+    2191,
+    1725,
+    1231,
+    961
+   ]
+  },
+  {
+   "version": 35,
+   "raw_modules": 23008,
+   "alignment": [
+    6,
+    30,
+    54,
+    78,
+    102,
+    126,
+    150
+   ],
+   "data_codewords": [
+    2306,
+    1812,
+    1286,
+    986
+   ]
+  },
+  {
+   "version": 36,
+   "raw_modules": 24272,
+   "alignment": [
+    6,
+    24,
+    50,
+    76,
+    102,
+    128,
+    154
+   ],
+   "data_codewords": [
+    2434,
+    1914,
+    1354,
+    1054
+   ]
+  },
+  {
+   "version": 37,
+   "raw_modules": 25568,
+   "alignment": [
+    6,
+    28,
+    54,
+    80,
+    106,
+    132,
+    158
+   ],
+   "data_codewords": [
+    2566,
+    1992,
+    1426,
+    1096
+   ]
+  },
+  {
+   "version": 38,
+   "raw_modules": 26896,
+   "alignment": [
+    6,
+    32,
+    58,
+    84,
+    110,
+    136,
+    162
+   ],
+   "data_codewords": [
+    2702,
+    2102,
+    1502,
+    1142
+   ]
+  },
+  {
+   "version": 39,
+   "raw_modules": 28256,
+   "alignment": [
+    6,
+    26,
+    54,
+    82,
+    110,
+    138,
+    166
+   ],
+   "data_codewords": [
+    2812,
+    2216,
+    1582,
+    1222
+   ]
+  },
+  {
+   "version": 40,
+   "raw_modules": 29648,
+   "alignment": [
+    6,
+    30,
+    58,
+    86,
+    114,
+    142,
+    170
+   ],
+   "data_codewords": [
+    2956,
+    2334,
+    1666,
+    1276
+   ]
+  }
+ ]
+}
