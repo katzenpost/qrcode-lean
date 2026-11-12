@@ -63,6 +63,27 @@ def modeName : Mode → String
 def segmentIs (s : Segment) (j : Json) : Bool :=
   modeName s.mode == j.strD "mode" && s.numChars == j.natD "num_chars" && bitString s.data == j.strD "bits"
 
+/-- A binary PGM (P5, maxval 255): width, height and pixels. -/
+def readPgm (path : System.FilePath) : IO (Nat × Nat × ByteArray) := do
+  let b ← IO.FS.readBinFile path
+  -- four whitespace-separated header fields, then one whitespace byte
+  let mut fields : Array String := #[]
+  let mut cur := ""
+  let mut i := 0
+  while fields.size < 4 && i < b.size do
+    let c := Char.ofNat b[i]!.toNat
+    if c.isWhitespace then
+      if cur != "" then
+        fields := fields.push cur
+        cur := ""
+    else
+      cur := cur.push c
+    i := i + 1
+  let (w, h) := (fields[1]!.toNat!, fields[2]!.toNat!)
+  unless fields[0]! == "P5" && fields[3]! == "255" && b.size ≥ i + w * h do
+    throw (.userError s!"{path}: not an 8-bit binary PGM")
+  return (w, h, b.extract i (i + w * h))
+
 /-- Data codewords from bytes, if there are as many as version `v` holds at level `e`. -/
 def codewordsOf (v : Version) (e : Ecc) (b : ByteArray) : Option (Vector UInt8 (numDataCodewords v e)) :=
   if b.size == numDataCodewords v e then some (Vector.ofFn fun i => b[i.val]!) else none

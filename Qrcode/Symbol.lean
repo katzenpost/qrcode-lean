@@ -36,6 +36,12 @@ def versionBits (v : Version) : Nat :=
   let rem := (List.range 12).foldl (fun r _ => (r <<< 1) ^^^ ((r >>> 11) * 0x1F25)) v.val
   v.val <<< 12 ||| rem
 
+/-- The two places format bit `i` goes in a symbol `n` modules wide: around the top
+left finder, and split between the other two. -/
+def formatPositions (n i : Nat) : (Nat × Nat) × (Nat × Nat) :=
+  let first := if i < 6 then (8, i) else if i < 8 then (8, i + 1) else if i == 8 then (7, 8) else (14 - i, 8)
+  (first, if i < 8 then (n - 1 - i, 8) else (8, n - 15 + i))
+
 /-- A symbol being drawn: its modules, and which of them are function modules. -/
 structure Canvas (n : Nat) where
   modules : Grid n
@@ -44,24 +50,17 @@ structure Canvas (n : Nat) where
 namespace Canvas
 
 @[inline] def setFunction (c : Canvas n) (x y : Nat) (dark : Bool) : Canvas n :=
-  ⟨c.modules.set x y dark, c.isFunction.set x y true⟩
+  -- taken apart first, so each grid is updated in place rather than copied
+  let ⟨m, f⟩ := c
+  ⟨m.set x y dark, f.set x y true⟩
 
 def drawFormatBits (c : Canvas n) (e : Ecc) (m : Mask) : Canvas n := Id.run do
   let bits := formatBits e m
   let mut c := c
-  -- first copy, around the top left finder
-  for i in [0:6] do
-    c := c.setFunction 8 i (bits.testBit i)
-  c := c.setFunction 8 7 (bits.testBit 6)
-  c := c.setFunction 8 8 (bits.testBit 7)
-  c := c.setFunction 7 8 (bits.testBit 8)
-  for i in [9:15] do
-    c := c.setFunction (14 - i) 8 (bits.testBit i)
-  -- second copy, split between the other two finders
-  for i in [0:8] do
-    c := c.setFunction (n - 1 - i) 8 (bits.testBit i)
-  for i in [8:15] do
-    c := c.setFunction 8 (n - 15 + i) (bits.testBit i)
+  for i in [0:15] do
+    let (a, b) := formatPositions n i
+    c := c.setFunction a.1 a.2 (bits.testBit i)
+    c := c.setFunction b.1 b.2 (bits.testBit i)
   return c.setFunction 8 (n - 8) true
 
 def drawVersion (c : Canvas n) (v : Version) : Canvas n := Id.run do
@@ -143,13 +142,10 @@ def addEccAndInterleave (v : Version) (e : Ecc) (data : Vector UInt8 (numDataCod
         out := out.push blocks[j]![i]!
   return Vector.ofFn fun i => out[i.val]!
 
-namespace Canvas
-
-/-- Places the codewords in the two-column zigzag from the bottom right,
-skipping function modules and the vertical timing column. -/
-def drawCodewords (c : Canvas n) (data : ByteArray) : Canvas n := Id.run do
-  let mut m := c.modules
-  let mut i := 0
+/-- The modules codeword bits go in, in order: the two-column zigzag from the
+bottom right, skipping function modules and the vertical timing column. -/
+def codewordOrder (isFunction : Grid n) : Array (Nat × Nat) := Id.run do
+  let mut out := #[]
   for k in [0:(n - 1) / 2] do
     let right := n - 1 - 2 * k
     let right := if right ≤ 6 then right - 1 else right
@@ -158,9 +154,18 @@ def drawCodewords (c : Canvas n) (data : ByteArray) : Canvas n := Id.run do
       for j in [0:2] do
         let x := right - j
         let y := if upward then n - 1 - vert else vert
-        if !c.isFunction.get x y && i < data.size * 8 then
-          m := m.set x y (data[i / 8]!.toNat.testBit (7 - i % 8))
-          i := i + 1
+        if !isFunction.get x y then
+          out := out.push (x, y)
+  return out
+
+namespace Canvas
+
+/-- Places the codewords in `codewordOrder`; modules past the last bit stay light. -/
+def drawCodewords (c : Canvas n) (data : ByteArray) : Canvas n := Id.run do
+  let mut m := c.modules
+  for ((x, y), i) in (codewordOrder c.isFunction).zipIdx do
+    if i < data.size * 8 then
+      m := m.set x y (data[i / 8]!.toNat.testBit (7 - i % 8))
   return { c with modules := m }
 
 /-- XORs mask `m` into the non-function modules; applying it twice undoes it. -/
