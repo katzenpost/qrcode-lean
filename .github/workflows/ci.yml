@@ -13,10 +13,12 @@ jobs:
         run: |
           curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
-      - name: Regenerate the vectors from qrcodegen 1.8.0
+      - name: Regenerate the vectors from qrcodegen 1.8.0 and quirc 1.2
         run: |
           pip install qrcodegen==1.8.0
+          git clone --depth 1 --branch v1.2 https://github.com/dlbeer/quirc "$RUNNER_TEMP/quirc"
           python3 tools/gen-vectors.py "$RUNNER_TEMP/vectors"
+          python3 tools/gen-decode-vectors.py "$RUNNER_TEMP/quirc" "$RUNNER_TEMP/vectors"
           for d in "$RUNNER_TEMP"/vectors/*/; do diff -r "$d" "tests/vectors/$(basename "$d")"; done
       - run: lake build
       - run: lake test

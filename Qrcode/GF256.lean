@@ -45,6 +45,11 @@ def mul (x y : GF256) : GF256 :=
 
 instance : Mul GF256 := ⟨mul⟩
 
+/-- The multiplicative inverse; 0 has none and maps to 0. -/
+def inv (x : GF256) : GF256 := if x.val == 0 then 0 else exp (255 - log x)
+
+instance : Div GF256 := ⟨fun x y => x * inv y⟩
+
 end GF256
 
 end Qrcode

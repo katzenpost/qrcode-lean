@@ -6,3 +6,4 @@ import Qrcode.Grid
 import Qrcode.Symbol
 import Qrcode.Encode
 import Qrcode.Render
+import Qrcode.Decode
