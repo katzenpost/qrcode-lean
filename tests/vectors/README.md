@@ -31,3 +31,27 @@ of those bytes.
 - `vouchers/`: two voucher codes as hushphone, the T-Deck and katzenqt encode
   them (byte mode, level M, smallest version, automatic mask, no boost). The C
   qrcodegen the T-Deck uses gives the same two symbols.
+
+The decoder's vectors, `decode/`, are written by `tools/gen-decode-vectors.py`
+with Daniel Beer's quirc 1.2 as the reference decoder, built from a checkout by
+the system C compiler around `tools/quirc-harness.c`, which reaches quirc's own
+error correction steps:
+
+```sh
+git clone --depth 1 --branch v1.2 https://github.com/dlbeer/quirc
+python3 tools/gen-decode-vectors.py quirc tests/vectors
+```
+
+- Reed-Solomon blocks for every parity length, with up to two more wrong
+  bytes than the parity corrects, and quirc's correction of each.
+- Format bits for every level and mask with up to five wrong bits, and the
+  level and mask quirc reads from them. quirc sometimes accepts a word four
+  bits from the nearest code word; this decoder stops at three.
+- Whole symbols from qrcodegen in each segment mode, with modules flipped at
+  random, and quirc's decoding of each grid.
+- Images of the voucher code and of a version 8 symbol, rendered by the
+  generator as 8-bit PGM: clean, 2.5 pixels a module, turned, upside down,
+  in perspective, noisy and mirrored. Each has the finder centres the renderer
+  placed, and quirc's grid and decoding; quirc reads five of the eight, and the
+  tests require this decoder to read all of them. The camera photos in `tests/photos/`
+  are inputs; the generator records quirc's reading of them too.
