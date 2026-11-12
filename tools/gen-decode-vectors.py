@@ -320,6 +320,7 @@ def main(quirc_dir, outdir):
     with tempfile.TemporaryDirectory() as tmp:
         qz = Quirc(quirc_dir, tmp)
         vec = {"reed_solomon": reed_solomon(qz), "format": format_bits(qz), "grids": grids(qz), "images": []}
+        rng.seed(0x1A6E)  # so the images' noise stays put when other vectors are added
         shots = [(name, text, w, h, img, finders, "decode/" + name + ".pgm")
                  for name, text, w, h, img, finders in images()]
         for f in sorted(os.listdir(PHOTOS)) if os.path.isdir(PHOTOS) else []:

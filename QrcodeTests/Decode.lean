@@ -44,7 +44,11 @@ def formatVectors : T Unit := do
   for r in j.arrD "format" do
     let want := if r.has "ecc" then some (r.strD "ecc", r.natD "mask") else none
     let got := (decodeFormat [r.natD "bits"]).map fun (e, m) => (toString e, m.val)
-    check (got == want) s!"format bits {r.natD "bits"} with {r.natD "errors"} errors: {got}"
+    -- quirc's BCH decoder sometimes lands on a code word four bits away, past the three the
+    -- code guarantees (both cases here tie with another word); we stop at three
+    let tie := got.isNone && Ecc.all.any fun e => (List.finRange 8).any fun m =>
+      want == some (toString e, m.val) && popcount (r.natD "bits" ^^^ formatBits e m) == 4
+    check (got == want || tie) s!"format bits {r.natD "bits"} with {r.natD "errors"} errors: {got}"
   -- every code word with every pattern of up to three wrong bits
   let pats15 := errorPatterns 15
   let pats18 := errorPatterns 18
@@ -182,7 +186,7 @@ def bench : T Unit := do
         check (p == "cvV8Q1uGC31DYm4pNGXfCg8ihJA1Pj7sYkyK/eBIP28=".toUTF8) "bench payload"
     let ms := ((← IO.monoNanosNow) - t0).toFloat / 1e6 / frames.length.toFloat
     check (found == if symbol then frames.length else 0) s!"bench {what}: {found} decoded"
-    IO.println s!"  decodeGray on a 640x480 frame {what}: {ms.round} ms"
+    IO.println s!"  decodeGray on a 640x480 frame {what}: {ms.round.toUInt64} ms"
   -- the entry point checks the pixel count
   check (decodeGray 4 4 (ByteArray.mk (Array.replicate 15 0)) matches .error _) "short frame"
   check (decodeGray 0 0 .empty matches .error _) "empty frame"

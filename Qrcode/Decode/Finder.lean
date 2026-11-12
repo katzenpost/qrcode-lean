@@ -19,15 +19,16 @@ structure Finder where
   count : Nat
   deriving Inhabited, Repr
 
-/-- Whether runs `r` are in the ratio `w`, each within `slack` / 4 of its share:
-`|r_i - w_i t / W| < (slack / 4) w_i t / W`, for `t` and `W` the sums of `r` and `w`. -/
-def ratio (w : Array Nat) (slack : Nat) (r : Array Nat) : Bool :=
+/-- Whether runs `r` are in the ratio `w`, each within `slack` / 4 of its share plus `px`
+pixels: `|r_i - w_i t / W| < (slack / 4) w_i t / W + px`, for `t` and `W` the sums of `r`
+and `w`. -/
+def ratio (w : Array Nat) (slack : Nat) (r : Array Nat) (px : Nat := 0) : Bool :=
   let t := r.foldl (· + ·) 0
   let ww := w.foldl (· + ·) 0
   t ≥ ww && r.size == w.size && (r.zip w).all fun (ri, wi) =>
-    4 * ww * ri < 4 * wi * t + slack * wi * t && 4 * wi * t < 4 * ww * ri + slack * wi * t
+    4 * ww * ri < 4 * wi * t + slack * wi * t + 4 * ww * px && 4 * wi * t < 4 * ww * ri + slack * wi * t + 4 * ww * px
 
-def finderRatio := ratio #[1, 1, 3, 1, 1]
+def finderRatio (slack : Nat) (r : Array Nat) (px : Nat := 0) : Bool := ratio #[1, 1, 3, 1, 1] slack r px
 
 /-- Pixels of colour `dark` from `(x, y)` on along `(dx, dy)`, at most `limit`. -/
 def runLength (bm : Image) (x y dx dy : Int) (dark : Bool) (limit : Nat) : Nat := Id.run do
@@ -81,7 +82,9 @@ def runWindows (runs : Array Nat) (x0 : Nat) (ok : Array Nat → Bool) : Array (
 @[inline] def diff (a b : Nat) : Nat := max a b - min a b
 
 /-- Confirms a row hit centred at `cx` on row `y` with runs `r`: down the column, then
-along the row through the corrected centre, then along the diagonal. -/
+along the row through the corrected centre, then along the diagonal. The last two allow
+each run a pixel more, as a binarized edge often lands a pixel off, a third of a module
+three pixels wide; the column check stays strict, as it turns away most false hits. -/
 def confirm (bm : Image) (y : Nat) (r : Array Nat) (cx : Float) : Option Finder := do
   let t := r.foldl (· + ·) 0
   let x := cx.toUInt64.toNat
@@ -91,9 +94,9 @@ def confirm (bm : Image) (y : Nat) (r : Array Nat) (cx : Float) : Option Finder 
   let cy := y.toFloat + oy
   let (hr, ox) := crossRuns bm x cy.toUInt64.toNat 1 0 t
   let th := hr.foldl (· + ·) 0
-  guard (finderRatio 2 hr && 5 * diff th t < 2 * t)
+  guard (finderRatio 2 hr 1 && 5 * diff th t < 2 * t)
   let cx := x.toFloat + ox
-  guard (finderRatio 3 (crossRuns bm cx.toUInt64.toNat cy.toUInt64.toNat 1 1 t).1)
+  guard (finderRatio 3 (crossRuns bm cx.toUInt64.toNat cy.toUInt64.toNat 1 1 t).1 1)
   return ⟨cx, cy, (th + tv).toFloat / 14, 1⟩
 
 /-- Adds a confirmed centre, averaged into an earlier candidate of about the same

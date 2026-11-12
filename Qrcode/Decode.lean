@@ -25,11 +25,14 @@ def decodeBitmap (bm : Image) : Except String Decoded := do
   let mut err := ""
   for (bl, tl, tr) in ts do
     for v in versionGuesses bl tl tr (moduleSize bl tl tr) do
-      let g := sampleSymbol bm bl tl tr v
-      let v' := if v.val < 7 then v else (decodeVersion (versionWords g)).getD v
-      match if v' == v then decodeEither v g else decodeEither v' (sampleSymbol bm bl tl tr v') with
-      | .ok d => return d
-      | .error e => err := s!"version {v'}: {e}"
+      let al := alignmentFor bm bl tl tr (moduleSize bl tl tr) v
+      -- noise can hide the alignment pattern and fake one nearby, so the parallelogram's corner is tried too
+      for a in if al.isSome then [al, none] else [none] do
+        let g := sample bm (transform bl tl tr v.size a) v.size
+        let v' := if v.val < 7 then v else (decodeVersion (versionWords g)).getD v
+        match if v' == v then decodeEither v g else decodeEither v' (sampleSymbol bm bl tl tr v') with
+        | .ok d => return d
+        | .error e => err := s!"version {v'}: {e}"
   throw s!"no symbol decoded; last try {err}"
 
 /-- The first symbol found in grayscale image `img`; if none is, the image is smoothed
